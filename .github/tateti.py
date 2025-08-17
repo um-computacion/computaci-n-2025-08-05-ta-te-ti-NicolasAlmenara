@@ -1,51 +1,42 @@
 from jugador import Jugador
+from tablero import Tablero
 
-class Tateti:
-    def __init__(self, nombre_x, nombre_o):
-        self.jugador_x = Jugador(nombre_x, "X")
-        self.jugador_o = Jugador(nombre_o, "O")
-        self.turno = self.jugador_x
-        self.tablero = [
-            ["", "", ""],
-            ["", "", ""],
-            ["", "", ""]
-        ]
-
-    def ocupar_casilla(self, fil, col):
-        if self.tablero[fil][col] == "":
-            self.tablero[fil][col] = self.turno.ficha
-            self.cambiar_turno()
-            return True
-        return False
-
-    def cambiar_turno(self):
-        self.turno = self.jugador_o if self.turno == self.jugador_x else self.jugador_x
+class Tateti():
+    def __init__(self, nombre1, nombre2):
+        self.jugador_1 = Jugador(nombre1, "X")
+        self.jugador_2 = Jugador(nombre2, "O")
+        self.tablero = Tablero()
+        self.turno = "X"
+    
+    def mostar_tablero(self):
+        self.tablero.mostar_tablero()
 
     def jugador_actual(self):
-        return self.turno
+        if self.turno == "X":
+            return self.jugador_1.nombre
+        if self.turno == "O":
+            return self.jugador_2.nombre
+        
+    
+    def cambio_turno(self):
+        if self.turno == "X":
+            self.turno = "O"
+        else:
+            self.turno = "X"
+        
+    def validar_movimiento(self, fil, col):
+        return self.tablero.validar_movimiento(fil, col)
 
-    def hay_ganador(self):
-        t = self.tablero
-        for i in range(3):
-            if t[i][0] == t[i][1] == t[i][2] != "":
-                return True
-            if t[0][i] == t[1][i] == t[2][i] != "":
-                return True
-        if t[0][0] == t[1][1] == t[2][2] != "":
-            return True
-        if t[0][2] == t[1][1] == t[2][0] != "":
-            return True
-        return False
+    def poner_ficha(self, turno, fil, col):
+        return self.tablero.poner_ficha(turno, fil, col)
+    
+    def ganador(self):
+        return self.tablero.ganador()
+    
+    def empate(self, contador):
+        return self.tablero.empate(contador)
 
-    def tablero_lleno(self):
-        for fila in self.tablero:
-            for casilla in fila:
-                if casilla == "":
-                    return False
-        return
-                
+
 
 
     
-        
-
